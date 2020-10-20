@@ -7,7 +7,7 @@ width, height = 1800, 1000
     
 win = GraphWin('Graphics', width, height)
 win.setCoords(-width/2, -height/2, width/2, height/2)    
-win.setBackground('Black')
+win.setBackground(color_rgb(0,0,255))
 
 #draw axii
 xAxisLine = Line(Point(-width/2,0),Point(width/2,0))
@@ -17,7 +17,12 @@ xAxisLine = Line(Point(0,-height/2),Point(0,height/2))
 xAxisLine.setOutline('lightgray')
 xAxisLine.draw(win)
 
-pc = 200 # plotting multiplier
+pc = height / 2 # plotting multiplier
+increment = 2 / pc
+yLimit = 1.3
+xUpperLimit = 0.6
+print (pc)
+print (increment)
 nMax = 650
 
 def drawPoint(point, color1, color2):    
@@ -28,9 +33,9 @@ def main():
 
     tx = -2.0
 
-    while (tx < 2.0):
-        ty = -2.0
-        while (ty < 2.0):
+    while (tx < xUpperLimit):
+        ty = -yLimit
+        while (ty < yLimit):
             # run the z1 = z^2 + c for each point n times
             zx = 0
             zy = 0
@@ -53,12 +58,13 @@ def main():
                 if (color2 < 0):
                     color2 = 0
                     
-            
-            drawPoint(Point(tx*pc,ty*pc),color1, color2)
+            if (n > 3):
+                drawPoint(Point(tx*pc,ty*pc),color1, color2)
+                
             #if (n >= 600):
                 #print(n)
-            ty = ty + 0.01
-        tx = tx + 0.01
+            ty = ty + increment
+        tx = tx + increment
         
     
     
