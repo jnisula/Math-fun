@@ -101,10 +101,10 @@ def main():
     xStart = -2.0
     yStart = -1.5
     #iterate(xStart, yStart, xLimit, yLimit, pc, increment, 0, 0) #zoomed out
-    ZCX = -1.4 #Zoom center x
-    ZCY = 0.029 #Zoom center y
-    ZW = 0.01 #Zoom wdth
-    ZH = 0.01 #Zoom height
+    ZCX = -1.4035 #Zoom center x
+    ZCY = 0.0294 #Zoom center y
+    ZW = 0.002 #Zoom wdth
+    ZH = 0.002 #Zoom height
     pc = width / ZW
     increment = 2 / pc
     #print(str(ZCX - ZW/2) + " - " + str(pc))
