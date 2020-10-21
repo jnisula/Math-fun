@@ -69,8 +69,8 @@ def iterate(xStart, yStart, xLimit, yLimit, pc, increment, ZCX, ZCY):
                 green = 255
                 blue = 0
             elif (n <= 48): #green-
-                red = (n-36) * 20
-                green = 0
+                red = 255
+                green = (n-36) * 20
                 blue = 0
             elif (n <= 60): #blue+
                 red = 255
