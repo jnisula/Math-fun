@@ -65,12 +65,8 @@ def iterate(start, increment, ZCX, ZCY):
                     
             if (n > 0):                
                 pointMap[y][x] = (red, green, blue)
-                
-                
-            #if (n >= 600):
-                #print(n)
+                                
             ty = ty + increment
-            #print(str(tx) + "|" + str(ty))
         tx = tx + increment
     
     plt.imshow(pointMap, interpolation="nearest")
