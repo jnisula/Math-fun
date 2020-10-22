@@ -3,7 +3,7 @@ from graphics import *
 from operator import *
 
 #graph window initialisation
-width, height = 1800, 1200
+width, height = 600, 400
     
 win = GraphWin('Graphics', width, height)
 win.setCoords(-width/2, -height/2, width/2, height/2)    
@@ -20,7 +20,7 @@ xAxisLine.draw(win)
 
 #print (pc)
 #print (increment)
-nMax = 650
+nMax = 1650
 
 #red point to origin for verifying scaling
 point = Point(0,0)
@@ -43,19 +43,40 @@ def iterate(xStart, yStart, xLimit, yLimit, pc, increment, ZCX, ZCY):
             
             zx = 0.0
             zy = 0.0
+            zx2 = 40.0
+            zy2 = 40.0
             n = 0
+            same1 = False
+            same2 = False
             while (sqrt(zx ** 2 + zy ** 2) < 2.0 and n < nMax):
                 zx1 = zx ** 2 - zy ** 2 + tx
                 zy1 = 2 * zx * zy + ty
+                
+                if (same1 == False and abs(zx - zx1) < 0.001 and abs(zy - zy1) < 0.001):
+                    same1 = True
+                if (same2 == False and abs(zx1 - zx2) < 0.001 and abs(zy1 - zy2) < 0.001):
+                    same2 = True
+                    
+                zx2 = zx
+                zy2 = zy
+
                 zx = zx1
                 zy = zy1
                 
                 n = n + 1
 
             if (n >= nMax): #black
-                red = 0
-                green = 0
-                blue = 0
+                red = 180
+                green = 180
+                blue = 180
+                if (same1):
+                    red = 0
+                    green = 0
+                    blue = 0
+                elif (same2):
+                    red = 120
+                    green = 60
+                    blue = 40
             elif (n <= 12): #blue max -> green+
                 red = 0
                 green = n * 20
@@ -78,10 +99,12 @@ def iterate(xStart, yStart, xLimit, yLimit, pc, increment, ZCX, ZCY):
                 blue = (n-48) * 20
             else: #red-
                 red = 255 - (n-60)
-                green = 0
+                green = (n-60)
                 blue = 255
                 if (red < 0):
                     red = 0
+                if (green > 255):
+                    green = 255
                     
             if (n > 1):
                 drawPoint(Point((tx-ZCX)*pc,(ty-ZCY)*pc),red, green, blue)                
@@ -100,15 +123,15 @@ def main():
     xLimit = 0.6
     xStart = -2.0
     yStart = -1.5
-    #iterate(xStart, yStart, xLimit, yLimit, pc, increment, 0, 0) #zoomed out
+    iterate(xStart, yStart, xLimit, yLimit, pc, increment, 0, 0) #zoomed out
     ZCX = -1.4035 #Zoom center x
     ZCY = 0.0294 #Zoom center y
-    ZW = 0.002 #Zoom wdth
-    ZH = 0.002 #Zoom height
+    ZW = 0.001 #Zoom wdth
+    ZH = 0.001 #Zoom height
     pc = width / ZW
     increment = 2 / pc
     #print(str(ZCX - ZW/2) + " - " + str(pc))
-    iterate(ZCX - ZW/2, ZCY - ZH/2, ZCX - ZW/2 + ZW, ZCY - ZH/2 + ZH, pc, increment, ZCX, ZCY) #zoomed in
+    #iterate(ZCX - ZW/2, ZCY - ZH/2, ZCX - ZW/2 + ZW, ZCY - ZH/2 + ZH, pc, increment, ZCX, ZCY) #zoomed in
     
 main()
     
