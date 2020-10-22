@@ -2,6 +2,9 @@ from math import *
 from graphics import *
 from operator import *
 
+import numpy as np
+import matplotlib.pyplot as plt
+
 #graph window initialisation
 width, height = 600, 400
     
@@ -40,28 +43,26 @@ def iterate(xStart, yStart, xLimit, yLimit, pc, increment, ZCX, ZCY):
         ty = yStart
         while (ty < yLimit):
             # run the z1 = z^2 + c for each point n times
-            
-            zx = 0.0
-            zy = 0.0
-            zx2 = 40.0
-            zy2 = 40.0
+
+            z = 0+0j
+            z2 = 40.0+0j            
             n = 0
             same1 = False
             same2 = False
-            while (sqrt(zx ** 2 + zy ** 2) < 2.0 and n < nMax):
-                zx1 = zx ** 2 - zy ** 2 + tx
-                zy1 = 2 * zx * zy + ty
+            while (abs(z) < 2.0 and n < nMax):
+                c = tx + ty*1j
                 
-                if (same1 == False and abs(zx - zx1) < 0.001 and abs(zy - zy1) < 0.001):
+                z1 = z ** 2 + c
+                
+                
+                if (same1 == False and abs(z - z1) < 0.001):
                     same1 = True
-                if (same2 == False and abs(zx1 - zx2) < 0.001 and abs(zy1 - zy2) < 0.001):
+                if (same2 == False and abs(z1 - z2) < 0.001):
                     same2 = True
                     
-                zx2 = zx
-                zy2 = zy
+                z2 = z
 
-                zx = zx1
-                zy = zy1
+                z = z1
                 
                 n = n + 1
 
@@ -120,7 +121,7 @@ def main():
     pc = width / 4 # plotting multiplier
     increment = 2 / pc
     yLimit = 1.5
-    xLimit = 0.6
+    xLimit = 2
     xStart = -2.0
     yStart = -1.5
     iterate(xStart, yStart, xLimit, yLimit, pc, increment, 0, 0) #zoomed out
