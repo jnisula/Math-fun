@@ -1,7 +1,7 @@
 from math import *
 from graphics import *
 from operator import *
-from PIL import Image
+#from PIL import Image
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 #graph window initialisation
 width, height = 800, 800
 
-nMax = 100
+nMax = 3000
 
 pointMap = np.zeros((height, width, 3), dtype=np.uint8)
     
@@ -30,38 +30,35 @@ def iterate(start, increment, ZCX, ZCY):
                 z = z ** 2 + c                                
                 n = n + 1
 
+            m = n % 150
             if (n >= nMax): #black
                 red = 0
                 green = 0
                 blue = 0                
-            elif (n <= 12): #blue max -> green+
+            elif (m <= 25): #blue -> green+
                 red = 0
-                green = n * 20
+                green = m % 25 * 10
                 blue = 255
-            elif (n <= 24): #blue-
+            elif (m <= 50): #cyan -> blue-
                 red = 0
                 green = 255
-                blue = 255 - (n-12) * 20
-            elif (n <= 36): #red+
-                red = (n-24) * 20
+                blue = 255 - (m % 25) * 10
+            elif (m <= 75): #green -> red+
+                red = (m % 25) * 10
                 green = 255
                 blue = 0
-            elif (n <= 48): #green-
+            elif (m <= 100): #yellow -> green-
                 red = 255
-                green = (n-36) * 20
+                green = 255 - (m % 25) * 10
                 blue = 0
-            elif (n <= 60): #blue+
+            elif (m <= 125): #red -> blue+
                 red = 255
                 green = 0
-                blue = (n-48) * 20
-            else: #red-
-                red = 255 - (n-60)
-                green = (n-60)
-                blue = 255
-                if (red < 0):
-                    red = 0
-                if (green > 255):
-                    green = 255
+                blue = (m % 25) * 10
+            elif (m <= 150): #magenta -> red-
+                red = 255 - (m % 25) * 10
+                green = 0
+                blue = 255            
                     
             if (n > 0):                
                 pointMap[y][x] = (red, green, blue)
@@ -76,10 +73,18 @@ def iterate(start, increment, ZCX, ZCY):
     #img.save("mandelTest.png")
         
 def main():
-    size = 4
+    size = 0.000000000001
+    const = 0.000000000003 *0.96
+    const2 = 0.000000000003 *0.95
+    start = (-1.26929999993 + const2,-0.18036999993 + const)
+
+    ## whole:
+    #size = 4
+    #start = (-2.0,-2.0)
+
     increment = size / width
         
-    start = (-2.0,-2.0)
+    
     iterate(start, increment, 0, 0) #zoomed out
     
     ZCX = -1.4035 #Zoom center x
