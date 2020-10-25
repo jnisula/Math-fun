@@ -7,14 +7,14 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 #graph window initialisation
-width, height = 800, 800
+width, height = 200, 200
 
-nMax = 30
+#nMax = 150
 #nMax = 130
 
 pointMap = np.zeros((height, width, 3), dtype=np.uint8)
 
-def getColor(n):
+def getColor(n, nMax):
     m = n % 150
     red = 0
     green = 0
@@ -50,7 +50,7 @@ def getColor(n):
         blue = 255
     return red, green, blue
 
-def iterate(start, increment):
+def iterate(start, increment, nMax):
     tx = start[0]
 
     for x in range(len(pointMap[0])):        
@@ -61,15 +61,15 @@ def iterate(start, increment):
 
             z = 0+0j
             n = 0
-            while (abs(z) < 2.0 and n < nMax):            
+            while (abs(z) < 2.0 and n < nMax):
                 c = tx + ty*1j
                 z = z ** 2 + c                
                 n = n + 1
 
             if (n > 0):
                 
-                pointMap[y][x] = getColor(n)
-
+                pointMap[y][x] = getColor(n, nMax)
+                
             ty = ty + increment
         tx = tx + increment
             
@@ -84,20 +84,20 @@ def main():
         increment = size / width
         print("Increment:" + str(increment))
         
-        nMax = 100 * i
+        nMax = i * 200         
         print("nMax:" + str(nMax))
         
-        iterate(start, increment)
+        iterate(start, increment, nMax)
         
         plt.imshow(pointMap, origin="lower", interpolation="nearest")
-        points = plt.ginput(n=1)
+        points = plt.ginput(n=1, timeout=-1)
         print("Picked point:" + str(points))
         print("Picked point:" + str(points[0][0]) + ", " + str(points[0][1]))
         center = (start[0] + points[0][0]/width * size, start[1] + points[0][1]/height * size)
         print("Center:" + str(center))
-        size = size / 10
+        size = size / 5
         print("Size:" + str(size))
-        i = i + 5 
+        i = i + 7 
             
 main()
     
